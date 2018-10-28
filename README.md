@@ -1,6 +1,10 @@
 # tinypascal
+All of this code (including bugs) is public domain.  
+  
 This is an advanced interpreter study based on the amazing series https://zserge.com/blog/cucu-part1.html  
   
+I suggest looking at the tinymath project first to get a feel for the code. This interpreter is quite complex compared to the math one.  
+
 The goal was to follow the tutorial but end up with an interpreter instead of a compiler. This repository is the result of my studies consisting of the following parts:
 - lexer
 - parser
