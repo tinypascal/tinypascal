@@ -1,0 +1,438 @@
+///////////////////////////////////////////////////////////////////////////////
+// Test Looper
+///////////////////////////////////////////////////////////////////////////////
+global_total := 10;
+global_count := 0;
+
+repeat
+  inc(global_count);
+  writeln('------------------------------------------------------------------ ', global_count, ' / ', global_total);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 01 - Basic I/O');
+writeln(' Passed');
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 02 - Variables');
+s_passed:=' Pas' + 'sed';
+writeln(s_passed);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 03 - Condition 1');
+if true then
+writeln(s_passed);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 04 - Condition 2');
+s_err:=' ### Error! ###';
+
+if false then
+writeln(s_err)
+else
+writeln(s_passed);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 05 - Math 1');
+x := (129 - 1) / (2 + 3*2);
+ 
+if x = 16 then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 06 - Math 2');
+
+if 0 - (100 mod 33) + (100 mod 33) = -1*(55 mod 33) + (55 mod 33) then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 07 - Logic 1');
+
+a := 1;
+b := 2;
+c := 3;
+
+if (a < b) and (c > a) and (a <> c) and not (-1 = +1) and true and not false then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 08 - Logic 2');
+
+a := 1;
+b := 2;
+c := 3;
+
+if (a = 1) or not (b = 2) or ((c = 1) and not true) then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 09 - Strings 1');
+
+s := 'test';
+
+if (s = s[1] + s[2] + s[3] + s[4]) and ('a' = chr(ord('a'))) then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 10 - Strings 2');
+s1 := '0';
+s2 := 'a';
+passed := true;
+passed := passed and '0' + '0' = '00';
+passed := passed and s1 + s1 = 0;
+passed := passed and s1 + s2 = '0a';
+passed := passed and 0 + s1 = 0;
+passed := passed and 0 + s1 = '0';
+
+if passed then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 11 - Case 1');
+
+s := '';
+
+for i := 0 to 15 do
+case i of
+  10: s := concat(s, 'A');
+  11: s := concat(s, 'B');
+  12: s := concat(s, 'C');
+  13: s := concat(s, 'D');
+  14: s := concat(s, 'E');
+  15: s := concat(s, 'F');
+  else s := concat(s, i);
+end;
+
+if s = '0123456789ABCDEF' then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 11 - Case 2');
+
+s := '';
+
+case (1 = 1) of
+   True : s := concat(s, 'T');
+   False : s := concat(s, 'F');
+end;
+
+case (2 = 2) of
+   False : s := concat(s, 'F');
+   True : s := concat(s, 'T');
+end;
+
+case (-1 = -1) of
+   True : s := concat(s, 'T');
+else
+   s := concat(s, 'F');
+end;
+
+case (-1 <> 1) of
+   False : s := concat(s, 'F');
+else
+   s := concat(s, 'T');
+end;
+
+if s = 'TTTT' then 
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 12 - loops 1');
+
+s := '';
+
+for i := 1 to 10 do 
+begin
+  if (i mod 2) = 0 then continue;
+  if i > 7 then break;
+  s := concat(s, i);
+end;
+
+for i := 10 downto 1 do 
+begin
+  if (i mod 2) = 0 then continue;
+  if i < 4 then break;
+  s := concat(s, i);
+end;
+
+i := 1;
+while i <= 10 do 
+begin
+  if (i mod 2) = 0 then 
+  begin
+    inc(i);
+    continue;
+  end;
+  if i > 7 then break;
+  s := concat(s, i);
+  inc(i);
+end;
+
+i := 1;
+repeat
+  if (i mod 2) = 0 then 
+  begin
+    inc(i);
+    continue;
+  end;
+  if i > 7 then break;
+  s := concat(s, i);
+  inc(i);
+until i > 10;
+
+if s = '135797513571357' then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 13 - loops 2');
+
+s := '';
+
+begin
+  for a := 0 to 2 do 
+  begin
+    case a of 
+      0: s := concat(s, '0');
+      1: s := concat(s, '1');
+      else s := concat(s, '>1');
+    end;
+  end;
+
+  for b := 2 downto 0 do 
+  begin
+    case b of 
+      0: s := concat(s, '0');
+      1: s := concat(s, '1');
+      else s := concat(s, '>1');
+    end;
+  end;
+end;
+
+if s = '01>1>110' then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 14 - Error Test (must fail!)');
+s := '';
+
+begin
+  for b := 2 downto 0 do 
+  begin
+    case b of 
+      0: s := concat(s, '0');
+      1: s := concat(s, '1');
+      else s := concat(s, '>1');
+    end;
+  end;
+
+  for a := 0 to 2 do 
+  begin
+    case a of 
+      0: s := concat(s, '0');
+      1: s := concat(s, '1');
+      else s := concat(s, '>1');
+    end;
+  end;
+end;
+
+if s = '01>1>1103' then // different order of loops above!
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 20 - Complex 1 (ggT)');
+
+x := 128;
+y := 24;
+i := 1;
+
+while (i < x) or (i < y) do
+begin
+  if (x mod i = 0) and (y mod i = 0) then ggT := i;
+  
+  inc(i);
+end;
+
+if ggt = 8 then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 21 - Complex 2 (kgV)');
+
+x := 15;
+y := 21;
+i := x;
+kgv := 0;
+
+while (i < x*y) and (kgv = 0) do
+begin
+  if (i mod x = 0) and (i mod y = 0) then kgv := i;
+  
+  inc(i);
+end;
+
+if kgv = 105 then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 22 - Complex 3 (Heron)');
+
+zahl := 3;
+a := 1; 
+b := zahl;
+fehler := 0.0000000001;
+
+repeat
+  b := (a + b) / 2;
+  a := zahl / b;
+until b - a < fehler;
+
+if b = 1.73205080756888 then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 23 - Complex 4 (reverse string)');
+
+s := 'nebel';
+s2 := '';
+for i := 1 to length(s) do s2 := s[i] + s2;
+
+if s2 = 'leben' then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('# Test 24 - Complex 5 (brainfuck Interpreter)');
+
+
+buf := chr(0);
+
+for i := 1 to 4096 - 1 do
+buf := buf + chr(0);
+
+s := '++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.'; // Hello World!
+output := '';
+
+i := 1; // code pointer
+dp := 1; // data pointer
+
+while (i >= 1) and (i <= length(s)) do
+begin
+  ch := s[i];
+  inc(i);
+  
+  case ch of
+    '+': begin
+    	   cell := ord(buf[dp]);
+    	   // wrapping, like original implementation
+    	   if cell = 255 then cell := 0
+    	                 else inc(cell);
+    	   buf[dp] := chr(cell);
+    	 end;  
+    '-': begin
+    	   cell := ord(buf[dp]);
+    	   // wrapping, like original implementation
+    	   if cell = 0 then cell := 255
+    	               else dec(cell);
+    	   buf[dp] := chr(cell);
+    	 end;  
+    '>': inc(dp);
+    '<': dec(dp);
+    ',': writeln('[err: input not yet implemented]');
+    '.': output := concat(output, buf[dp]);
+    '[': begin
+    	   if ord(buf[dp]) = 0 then // skip the rest...
+    	   begin
+    	     count := 1;
+    	     while (count > 0) and (i <= length(s)) do
+    	     begin
+    	       inc(i);
+    	       case s[i] of
+    	         '[': inc(count);
+    	         ']': dec(count);
+    	       end;  	
+    	     end;
+    	     inc(i); // move past the last ]
+    	   end;
+    	   // otherwise just continue and jump back on the ]
+    	 end;
+    ']': begin
+    	   // jump back to opening [
+    	   dec(i);
+    	   count := 1;
+    	   while (count > 0) and (i >= 1) do
+    	   begin
+    	     dec(i);
+    	     ch := s[i];
+    	     case ch of
+    	       ']': inc(count);
+    	       '[': dec(count);
+    	     end;  	
+    	   end;
+         end;
+  end;
+end;
+
+if output = 'Hello World!' then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('http://rosettacode.org/wiki/Case-sensitivity_of_identifiers');
+
+dog := 'Benjamin';
+Dog := 'Samba';
+DOG := 'Bernie';
+
+if dog = 'Bernie' then
+writeln(s_passed) else writeln(s_err);
+
+///////////////////////////////////////////////////////////////////////////////
+write('http://rosettacode.org/wiki/Pascal%27s_triangle');
+
+r := 5;
+s := '';
+    
+for i := 0 to r - 1 do
+begin
+  c := 1;
+  for k := 0 to i do
+  begin
+    s := concat(s, c);
+    c := (c * (i - k)) div (k + 1);
+  end;
+end;
+
+if s = '111121133114641' then
+writeln(s_passed) else writeln(s_err);
+
+
+///////////////////////////////////////////////////////////////////////////////
+writeln('https://rosettacode.org/wiki/Arithmetic/Integer#Pascal');
+
+a := 5;
+b := 3;
+ 
+begin
+ writeln('a = ', a, ', b = ', b);
+ writeln('a+b = ', a+b);
+ writeln('a-b = ', a-b);
+ writeln('a*b = ', a*b);
+ writeln('a/b = ', a div b, ', remainder ', a mod b);
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+// Test Looper
+///////////////////////////////////////////////////////////////////////////////
+until global_count >= global_total;
+
+writeln;
+writeln('# Test 25 - import external data');
+writeln('Max HP: ', import('max_hp'));
+export('max_hp', import('max_hp')*2);
+
+writeln;
+user('attack', '5', 'belias smile', '5000');
+user('defend', import('max_hp') / 2, 2*1000);
+
+///////////////////////////////////////////////////////////////////////////////
+halt;
+
+writeln;
+writeln('Error. Halt statement ignored!');
